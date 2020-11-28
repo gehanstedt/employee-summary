@@ -103,6 +103,7 @@ async function handleEmployees () {
                     break;
             }
 
+            // Prompt for employee's name and store in name
             var { name } = await inquirer.prompt (
             {
                 type: "input",
@@ -110,6 +111,7 @@ async function handleEmployees () {
                 name: "name"
             });
             
+            // Prompt for employee's email address and store in email address
             var { emailAddress } = await inquirer.prompt (
             {
                 type: "input",
@@ -117,6 +119,8 @@ async function handleEmployees () {
                 name: "emailAddress"
             });
 
+            // Prompt for the extra answer associated with the type of employee.  This questions was generated
+            // above in the switch statement and the results will be stored in extraQuestion
             var { extraAnswer } = await inquirer.prompt (
             {
                 type: "input",
@@ -124,6 +128,9 @@ async function handleEmployees () {
                 name: "extraAnswer"
             });
 
+            // Now that we have the input, based again on the employee type we are adding we will call the
+            // appropriate new class to instantiate a new object of that type and then added it to 
+            // the employeeArray
             switch (employeeType) {
                 case "Manager":
                     let managerObject = new Manager (name, nextEmployeeID++, emailAddress, extraAnswer);
@@ -141,6 +148,9 @@ async function handleEmployees () {
                     break;
             }
 
+            // Prompt if another Engineer or Intern should be added.  Answer to be stored back into employeeType.
+            // If "None", we'll exit the do - while loop
+
             var { employeeType } = await inquirer.prompt (
             {
                     type: "list",
@@ -155,8 +165,10 @@ async function handleEmployees () {
         console.log (error);
     }
 
+    // Render the array of employees to HTML and store in the variable htmlOutput
     const htmlOutput = render (employeeArray);
 
+    // Write the htmlOutput to the file.  By default, this is "team.html" unless an argument is provided.
     try {
         await writeFileAsync(
             outputFilename,
@@ -169,27 +181,3 @@ async function handleEmployees () {
         console.log (error);
     }
 }   
-
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
