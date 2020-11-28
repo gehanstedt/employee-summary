@@ -71,9 +71,9 @@ handleEmployees ();
 function showIntroduction () {
     // Show introduction to user.  Ignore indenting
     console.log (`Welcome to app.js - the Organization Builder!
-You will be prompted to information on a manager.  Afterwards, you can input one or more employees - either
-interns or engineers.  Once you have entered all employees, it will generate an HTML file ${outputFilename}
-with your organization.
+You will be prompted for information on your organization.  First, the name of yoru team.  The, the manager
+of the team.  Afterwards, you can input one or more employees - either interns or engineers.  Once you have
+entered all employees, it will generate an HTML file ${outputFilename} with the organization.
 `);
 }
 
@@ -83,8 +83,19 @@ async function handleEmployees () {
     var keepGoing = true;
     var employeeType = "Manager";
     var extraQuestion;
+    var teamName;
 
     try {
+        // Prompt for the team name and eventually store in variable teamName
+        // A bit of a workaround to have the teamName2 variable survive outside the try
+        const { teamName2 } = await inquirer.prompt (
+            {
+                type: "input",
+                message: `What is the name of the team?`,
+                name: "teamName2"
+            });
+        teamName = teamName2;            
+
         // Prompt users for each employee to be added.  User must enter a manager first, so we control flow with a 
         // do - while loop
         do {
@@ -166,7 +177,7 @@ async function handleEmployees () {
     }
 
     // Render the array of employees to HTML and store in the variable htmlOutput
-    const htmlOutput = render (employeeArray);
+    const htmlOutput = render (employeeArray, teamName);
 
     // Write the htmlOutput to the file.  By default, this is "team.html" unless an argument is provided.
     try {
