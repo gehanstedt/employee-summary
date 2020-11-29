@@ -16,23 +16,6 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 // Array for choices to be displayed after the first employee is entered.
-const continuationChoices = [
-    {
-        name: "Add an Intern",
-        value: "Intern",
-        short: "Intern"
-    },
-    {
-        name: "Add an Engineer",
-        value: "Engineer",
-        short: "Engineer"
-    },
-    {
-        name: `I am finshed - write out ${outputFilename}`,
-        value: "None",
-        short: "None"
-    }];
-
 
 const render = require("./lib/htmlRenderer");
 const Employee = require("./lib/Employee");
@@ -84,6 +67,23 @@ async function handleEmployees () {
     var employeeType = "Manager";
     var extraQuestion;
     var teamName;
+
+    const continuationChoices = [
+        {
+            name: "Add an Intern",
+            value: "Intern",
+            short: "Intern"
+        },
+        {
+            name: "Add an Engineer",
+            value: "Engineer",
+            short: "Engineer"
+        },
+        {
+            name: `I am finshed - write out ${outputFilename}`,
+            value: "None",
+            short: "None"
+        }];
 
     try {
         // Prompt for the team name and eventually store in variable teamName
