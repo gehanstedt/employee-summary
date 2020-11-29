@@ -58,7 +58,7 @@ if (argc > 3) {
 // Test if user entered one argument.  If so, we will assume that is the filename they want to 
 // which they want to write the generated readme.
 else if (argc === 3) {
-    outputFilname = argv [2];
+    outputFilename = argv [2];
 }
 
 showIntroduction ();
@@ -122,6 +122,19 @@ async function handleEmployees () {
                 name: "name"
             });
             
+            // Prompt for the employee's ID.  By default, display the next employee ID.  If it is used, we'll
+            // increment that ID
+            var { id } = await inquirer.prompt (
+                {
+                    type: "input",
+                    message: `What is the ${employeeType}'s ID?`,
+                    default: nextEmployeeID,
+                    name: "id"
+                });
+            if (id === nextEmployeeID) {
+                nextEmployeeID++;
+            }
+                
             // Prompt for employee's email address and store in email address
             var { emailAddress } = await inquirer.prompt (
             {
@@ -144,17 +157,17 @@ async function handleEmployees () {
             // the employeeArray
             switch (employeeType) {
                 case "Manager":
-                    let managerObject = new Manager (name, nextEmployeeID++, emailAddress, extraAnswer);
+                    let managerObject = new Manager (name, id, emailAddress, extraAnswer);
                     employeeArray.push (managerObject);
                     break;
 
                 case "Intern":
-                    let internObject = new Intern (name, nextEmployeeID++, emailAddress, extraAnswer);
+                    let internObject = new Intern (name, id, emailAddress, extraAnswer);
                     employeeArray.push (internObject);
                     break;
             
                 case "Engineer":
-                    let engineerObject = new Engineer (name, nextEmployeeID++, emailAddress, extraAnswer);
+                    let engineerObject = new Engineer (name, id, emailAddress, extraAnswer);
                     employeeArray.push (engineerObject);
                     break;
             }
